@@ -13,46 +13,51 @@ import java.util.ArrayList;
  * @author kevin.lawrence
  */
 class Snake {
+
     private Direction direction = Direction.UP;
     private ArrayList<Point> body;
-    
+    private int growthCounter;
+
     {
         setBody(new ArrayList<Point>());
     }
-    
-    public void move(){
+
+    public void move() {
         int x = 0;
         int y = 0;
-        
-        switch (direction){
+
+        switch (getDirection()) {
             case UP:
                 x = 0;
                 y = -1;
                 break;
-                
+
             case DOWN:
                 x = 0;
                 y = 1;
                 break;
-                
+
             case RIGHT:
                 x = 1;
                 y = 0;
                 break;
-                
+
             case LEFT:
                 x = -1;
                 y = 0;
-                
+
         }
-        body.add(0, new Point(getHead().x + x, getHead().y + y));
-        body.remove(body.size() - 1);
+        getBody().add(0, new Point(getHead().x + x, getHead().y + y));
+        if (growthCounter <= 0) {
+            getBody().remove(getBody().size() - 1);
+        } else {
+            growthCounter--;
+        }
     }
-    
-    private Point getHead() {
-        return body.get(0);
+
+    public Point getHead() {
+        return getBody().get(0);
     }
-    
 
     /**
      * @return the direction
@@ -66,11 +71,11 @@ class Snake {
      */
     public void setDirection(Direction direction) {
         if (((this.direction == Direction.LEFT) && (direction != Direction.RIGHT))
-         || ((this.direction == Direction.RIGHT) && (direction != Direction.LEFT))
-         || ((this.direction == Direction.UP) && (direction != Direction.DOWN))
-         || ((this.direction == Direction.DOWN) && (direction != Direction.UP))) {
-                this.direction = direction;
-        } 
+                || ((this.direction == Direction.RIGHT) && (direction != Direction.LEFT))
+                || ((this.direction == Direction.UP) && (direction != Direction.DOWN))
+                || ((this.direction == Direction.DOWN) && (direction != Direction.UP))) {
+            this.direction = direction;
+        }
     }
 
     /**
@@ -85,6 +90,20 @@ class Snake {
      */
     public void setBody(ArrayList<Point> body) {
         this.body = body;
+    }
+
+    /**
+     * @return the growthCounter
+     */
+    public int getGrowthCounter() {
+        return growthCounter;
+    }
+
+    /**
+     * @param growthCounter the growthCounter to set
+     */
+    public void setGrowthCounter(int growthCounter) {
+        this.growthCounter = growthCounter;
     }
 
 }
