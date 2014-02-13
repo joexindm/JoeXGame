@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 class Snake {
 
-    private Direction direction = Direction.UP;
+    private Direction direction = Direction.RIGHT;
     private ArrayList<Point> body;
     private int growthCounter;
 
@@ -52,6 +52,14 @@ class Snake {
             getBody().remove(getBody().size() - 1);
         } else {
             growthCounter--;
+        }
+    }
+
+    void shrink(int shrink) {
+        for (int i = 0; i < shrink; i++) {
+            if (body.size() > 2) {
+                body.remove(body.size() - 1);
+            }
         }
     }
 
@@ -105,5 +113,6 @@ class Snake {
     public void setGrowthCounter(int growthCounter) {
         this.growthCounter = growthCounter;
     }
+
 
 }

@@ -7,6 +7,7 @@
 package joexgame;
 
 import environment.ApplicationStarter;
+import java.awt.Dimension;
 
 /**
  *
@@ -22,7 +23,7 @@ public class JoeXGame {
     }
 
     private static void start() {
-        ApplicationStarter.run("X Game", new SnakeEnvironment());
+        ApplicationStarter.run(new String[0], "X Game", new Dimension(1500,1050), new SnakeEnvironment());
     }
     
 }
