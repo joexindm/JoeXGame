@@ -4,6 +4,7 @@
  */
 package joexgame;
 
+import audio.AudioPlayer;
 import environment.Environment;
 import environment.GraphicsPalette;
 import environment.Grid;
@@ -104,6 +105,11 @@ class SnakeEnvironment extends Environment {
                     moveSnake();
                     if (isSnakeOutOfBounds()) {
                         gameState = GameState.ENDED;
+                        AudioPlayer.play("/resources/smw_lost_a_life.wav");
+                    }
+                    if (selfHitTest()) {
+                        gameState = GameState.ENDED;
+                        AudioPlayer.play("/resources/smw_lost_a_life.wav");
                     }
                     checkSnakeIntersection();
                 } else {
@@ -259,6 +265,7 @@ class SnakeEnvironment extends Environment {
                 this.redapples.get(i).setLocation(getUniqueRandomPoint());
                 this.snake.setGrowthCounter(1);
                 this.score += 50;
+                AudioPlayer.play("/resources/smw_coin.wav");
 
             }
         }
@@ -267,12 +274,14 @@ class SnakeEnvironment extends Environment {
                 this.yellowapples.get(i).setLocation(getUniqueRandomPoint());
                 this.snake.setGrowthCounter(1);
                 this.score += 100;
+                AudioPlayer.play("/resources/smw_dragon_coin.wav");
             }
         }
         for (int i = 0; i < this.poisonbottles.size(); i++) {
             if (this.snake.getHead().equals(this.poisonbottles.get(i))) {
                 this.poisonbottles.get(i).setLocation(getUniqueRandomPoint());
                 this.score -= 100;
+                AudioPlayer.play("/resources/smw_pipe.wav");
             }
         }
         for (int i = 0; i < this.stars.size(); i++) {
@@ -281,6 +290,7 @@ class SnakeEnvironment extends Environment {
                 //this.snake.setGrowthCounter(3);
                 this.snake.shrink(1);
                 this.score += 400;
+                AudioPlayer.play("/resources/smw_power-up.wav");
             }
         }
     }
@@ -300,6 +310,16 @@ class SnakeEnvironment extends Environment {
 //            return false;
 //        }
 
+    }
+    
+    private boolean selfHitTest() {
+        for (int i = 1; i < this.snake.getBody().size(); i++) {
+            if (this.snake.getBody().get(i).equals(this.snake.getHead())){
+              return true;
+            }
+        }
+        return false;
+    
     }
 
     private Point getRandomPoint() {
