@@ -21,7 +21,7 @@ import java.util.ArrayList;
  *
  * @author kevin.lawrence
  */
-class SnakeEnvironment extends Environment {
+class SnakeEnvironment extends Environment implements OptionsHandler {
 
     Snake snake;
     Grid grid;
@@ -46,8 +46,24 @@ class SnakeEnvironment extends Environment {
     public SnakeEnvironment() {
     }
 
+    
+    private void getOptions(){
+        OptionsDialog.main(this);
+    }
+    
+    
+//<editor-fold defaultstate="collapsed" desc="OptionsHandler Interface">
+    @Override
+    public void handleOptions(OptionsData optionsData) {
+        setDifficulty(optionsData.getDifficulty());
+    }
+//</editor-fold>
+    
     @Override
     public void initializeEnvironment() {
+        getOptions();
+        
+        
         this.setBackground(ResourceTools.loadImageFromResource("resources/StarBackground.jpg"));
 
         grid = new Grid();
@@ -123,6 +139,10 @@ class SnakeEnvironment extends Environment {
     public void keyPressedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_M) {
             moveSnake();
+        } else if (e.getKeyCode() == KeyEvent.VK_O) {
+            this.gameState = GameState.PAUSED;
+            this.getOptions();
+//            this.gameState = GameState.RUNNING ;
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             setDirection(Direction.UP);
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -138,7 +158,7 @@ class SnakeEnvironment extends Environment {
         } else if (e.getKeyCode() == KeyEvent.VK_3) {
             setDifficulty(Difficulty.HARD);
         } else if (e.getKeyCode() == KeyEvent.VK_4) {
-            setDifficulty(Difficulty.INSANE);
+            setDifficulty(Difficulty.LUNATIC);
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //toggle the PAUSED/RUNNING state
             if (gameState == GameState.RUNNING) {
@@ -237,7 +257,9 @@ class SnakeEnvironment extends Environment {
      */
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
-
+        System.out.println("Difficulty = " + difficulty.toString());
+        
+        
         switch (difficulty) {
             case EASY:
                 this.speed = SLOW;
@@ -251,7 +273,7 @@ class SnakeEnvironment extends Environment {
                 this.speed = FAST;
                 break;
 
-            case INSANE:
+            case LUNATIC:
                 this.speed = VERYFAST;
                 break;
 
@@ -370,4 +392,5 @@ class SnakeEnvironment extends Environment {
         }
         return false;
     }
+
 }

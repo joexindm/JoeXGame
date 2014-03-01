@@ -9,5 +9,5 @@ package joexgame;
  * @author kevin.lawrence
  */
 public enum Difficulty {
-    EASY, NORMAL, HARD, INSANE
+    EASY, NORMAL, HARD, LUNATIC
 }
