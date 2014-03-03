@@ -15,8 +15,7 @@ public class OptionsData {
     public OptionsData(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
-
-    
+  
 //<editor-fold defaultstate="collapsed" desc="Properties">
     private Difficulty difficulty = Difficulty.EASY;
 
